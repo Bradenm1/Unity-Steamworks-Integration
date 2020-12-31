@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UI;
+using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerInputHandler : MonoBehaviour
         DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, PlayerInputHandler>(m_PlayerCharacterController, this, gameObject);
         m_GameFlowManager = FindObjectOfType<GameFlowManager>();
         DebugUtility.HandleErrorIfNullFindObject<GameFlowManager, PlayerInputHandler>(m_GameFlowManager, this);
+
+        if (GameFlowManager.IsGameActive) return;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

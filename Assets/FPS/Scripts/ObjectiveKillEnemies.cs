@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Game;
+using Steamworks.NET;
+using UnityEngine;
 
 [RequireComponent(typeof(Objective))]
 public class ObjectiveKillEnemies : MonoBehaviour
@@ -12,7 +14,6 @@ public class ObjectiveKillEnemies : MonoBehaviour
 
     EnemyManager m_EnemyManager;
     Objective m_Objective;
-    int m_KillTotal;
 
     void Start()
     {
@@ -43,8 +44,11 @@ public class ObjectiveKillEnemies : MonoBehaviour
         if (mustKillAllEnemies)
             killsToCompleteObjective = m_EnemyManager.numberOfEnemiesTotal;
 
-        m_KillTotal = m_EnemyManager.numberOfEnemiesTotal - remaining;
-        int targetRemaning = mustKillAllEnemies ? remaining : killsToCompleteObjective - m_KillTotal;
+        if (enemy.enemyType == EnemyController.EnemyType.BOSS)
+            Stats.NPKilledBoss = true;
+
+        int remain = m_EnemyManager.numberOfEnemiesTotal - remaining;
+        int targetRemaning = mustKillAllEnemies ? remaining : killsToCompleteObjective - remain;
 
         // update the objective text according to how many enemies remain to kill
         if (targetRemaning == 0)
@@ -71,7 +75,7 @@ public class ObjectiveKillEnemies : MonoBehaviour
 
     string GetUpdatedCounterAmount()
     {
-        return m_KillTotal + " / " + killsToCompleteObjective;
+        return Stats.NPKillTotal + " / " + killsToCompleteObjective;
     }
 
 }

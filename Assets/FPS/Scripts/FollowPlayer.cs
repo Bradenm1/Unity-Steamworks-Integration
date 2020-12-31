@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
@@ -19,6 +20,7 @@ public class FollowPlayer : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = m_PlayerTransform.position + m_OriginalOffset;
+        if (GameFlowManager.IsGameActive) return;
+        if (m_PlayerTransform) transform.position = m_PlayerTransform.position + m_OriginalOffset;
     }
 }

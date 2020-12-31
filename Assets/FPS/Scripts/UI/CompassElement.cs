@@ -9,7 +9,7 @@ public class CompassElement : MonoBehaviour
 
     Compass m_Compass;
 
-    void Awake()
+    void Start()
     {
         m_Compass = FindObjectOfType<Compass>();
         DebugUtility.HandleErrorIfNullFindObject<Compass, CompassElement>(m_Compass, this);

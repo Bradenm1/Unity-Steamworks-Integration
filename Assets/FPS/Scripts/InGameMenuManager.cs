@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Steamworks.NET;
+using UI;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -52,6 +54,8 @@ public class InGameMenuManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameFlowManager.IsGameActive) return;
+
         // Lock cursor when clicking outside of menu
         if (!menuRoot.activeSelf && Input.GetMouseButtonDown(0))
         {
@@ -87,13 +91,35 @@ public class InGameMenuManager : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
+    /// <summary>
+    /// Debug drawing for showing if the user has achieved certain things
+    /// </summary>
+    private void OnGUI()
+    {
+        //SteamStatsAndAchievements.Instance.Render();
+    }
+#endif
+
     public void ClosePauseMenu()
     {
         SetPauseMenuActivation(false);
     }
 
+    /// <summary>
+    /// Called from UI button to reset the achievements.
+    /// </summary>
+    public void ResetAchievements()
+    {
+#if !DISABLESTEAMWORKS
+        SteamStatsAndAchievements.ResetAchievements();
+#endif
+    }
+
     void SetPauseMenuActivation(bool active)
     {
+        if (GameFlowManager.IsGameActive) return;
+
         menuRoot.SetActive(active);
 
         if (menuRoot.activeSelf)

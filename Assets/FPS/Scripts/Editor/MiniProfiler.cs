@@ -189,7 +189,6 @@ public class MiniProfiler : EditorWindow
     {
         ClearAnalysis();
         EditorStyles.textArea.wordWrap = true;
-        MeshCombiner mainMeshCombiner = GameObject.FindObjectOfType<MeshCombiner>();
 
         // Analyze
         MeshFilter[] meshFilters = GameObject.FindObjectsOfType<MeshFilter>();
@@ -207,18 +206,15 @@ public class MiniProfiler : EditorWindow
             polyCount += mf.sharedMesh.triangles.Length / 3;
 
             bool willBeCombined = false;
-            if(mainMeshCombiner)
+            foreach (GameObject combineParent in MeshCombiner.CombineParents)
             {
-                foreach (GameObject combineParent in mainMeshCombiner.combineParents)
+                if (mf.transform.IsChildOf(combineParent.transform))
                 {
-                    if(mf.transform.IsChildOf(combineParent.transform))
-                    {
-                        willBeCombined = true;
-                    }
+                    willBeCombined = true;
                 }
             }
 
-            if(!willBeCombined)
+            if (!willBeCombined)
             {
                 if (!(mf.GetComponentInParent<PlayerCharacterController>() ||
                     mf.GetComponentInParent<EnemyController>() ||

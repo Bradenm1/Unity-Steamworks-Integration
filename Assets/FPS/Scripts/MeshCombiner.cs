@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MeshCombiner : MonoBehaviour
 {
-    public List<GameObject> combineParents = new List<GameObject>();
+    public static List<GameObject> CombineParents = new List<GameObject>();
 
     [Header("Grid parameters")]
     public bool useGrid = false;
@@ -20,8 +20,9 @@ public class MeshCombiner : MonoBehaviour
     public void Combine()
     {
         List<MeshRenderer> validRenderers = new List<MeshRenderer>();
-        foreach (GameObject combineParent in combineParents)
+        foreach (GameObject combineParent in CombineParents)
         {
+            if (combineParent == null) continue;
             validRenderers.AddRange(combineParent.GetComponentsInChildren<MeshRenderer>());
         }
 

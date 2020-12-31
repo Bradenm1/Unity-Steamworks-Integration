@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UI;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
@@ -145,10 +146,20 @@ public class PlayerCharacterController : MonoBehaviour
         UpdateCharacterHeight(true);
     }
 
+    public void TeleportCharacter(Vector3 position)
+    {
+        m_Controller.enabled = false;
+        transform.position = position;
+        transform.rotation = Quaternion.identity;
+        m_Controller.enabled = true;
+    }
+
     void Update()
     {
+        if (GameFlowManager.IsGameActive) return;
+
         // check for Y kill
-        if(!isDead && transform.position.y < killHeight)
+        if (!isDead && transform.position.y < killHeight)
         {
             m_Health.Kill();
         }

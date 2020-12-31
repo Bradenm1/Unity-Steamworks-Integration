@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Reflection.Emit;
+using UI;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -6,6 +8,12 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Health), typeof(Actor), typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
+    public enum EnemyType : int
+    {
+        GRUNT,
+        BOSS
+    }
+
     [System.Serializable]
     public struct RendererIndexData
     {
@@ -20,6 +28,8 @@ public class EnemyController : MonoBehaviour
     }
 
     [Header("Parameters")]
+    [Tooltip("The enemy type")]
+    public EnemyType enemyType;
     [Tooltip("The Y height at which the enemy will be automatically killed (if it falls off of the level)")]
     public float selfDestructYHeight = -20f;
     [Tooltip("The distance at which the enemy considers that it has reached its current path destination point")]

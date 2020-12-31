@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Game;
+using Steamworks.NET;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +24,8 @@ public class EnemyManager : MonoBehaviour
 
     public void RegisterEnemy(EnemyController enemy)
     {
+        if (enemies.Contains(enemy)) return;
+            
         enemies.Add(enemy);
 
         numberOfEnemiesTotal++;
@@ -31,6 +35,7 @@ public class EnemyManager : MonoBehaviour
     {
         int enemiesRemainingNotification = numberOfEnemiesRemaining - 1;
 
+        Events.Events.OnOnEnemyKill();
         if (onRemoveEnemy != null)
         {
             onRemoveEnemy.Invoke(enemyKilled, enemiesRemainingNotification);

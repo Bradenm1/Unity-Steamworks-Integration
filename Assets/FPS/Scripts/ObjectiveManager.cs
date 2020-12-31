@@ -10,6 +10,7 @@ public class ObjectiveManager : MonoBehaviour
         if (m_Objectives.Count == 0)
             return false;
 
+
         for (int i = 0; i < m_Objectives.Count; i++)
         {
             // pass every objectives to check if they have been completed

@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class Pickup : MonoBehaviour
 {
+    public static List<Pickup> AllPickUps = new List<Pickup>();
     [Tooltip("Frequency at which the item will move up and down")]
     public float verticalBobFrequency = 1f;
     [Tooltip("Distance the item will move up and down")]
@@ -23,6 +26,11 @@ public class Pickup : MonoBehaviour
     Vector3 m_StartPosition;
     bool m_HasPlayedFeedback;
 
+    private void Awake()
+    {
+        Events.Events.OnLevelFinish += DestroyAllPickups;
+    }
+
     private void Start()
     {
         pickupRigidbody = GetComponent<Rigidbody>();
@@ -36,6 +44,8 @@ public class Pickup : MonoBehaviour
 
         // Remember start position for animation
         m_StartPosition = transform.position;
+
+        AllPickUps.Add(this);
     }
 
     private void Update()
@@ -77,5 +87,18 @@ public class Pickup : MonoBehaviour
         }
 
         m_HasPlayedFeedback = true;
+    }
+
+    public static void DestroyAllPickups()
+    {
+        for (int i = AllPickUps.Count; i-- > 0;)
+        {
+            DestroyImmediate(AllPickUps[i].gameObject);
+        }
+    }
+
+    public void OnDestroy()
+    {
+       if (AllPickUps.Contains(this)) AllPickUps.Remove(this);
     }
 }

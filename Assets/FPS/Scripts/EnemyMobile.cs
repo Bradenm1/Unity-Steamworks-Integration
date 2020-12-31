@@ -56,6 +56,8 @@ public class EnemyMobile : MonoBehaviour
 
     void Update()
     {
+        if (gameObject == null || !gameObject.activeSelf) return;
+
         UpdateAIStateTransitions();
         UpdateCurrentAIState();
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class NotificationToast : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class NotificationToast : MonoBehaviour
     float m_InitTime;
     bool m_WasInit;
 
+
+    private void Awake()
+    {
+        Events.Events.OnLevelStart += DestroyToast;
+    }
 
     public void Initialize(string text)
     {
@@ -52,8 +58,13 @@ public class NotificationToast : MonoBehaviour
 
                 // fade out over, destroy the object
                 m_WasInit = false;
-                Destroy(gameObject);
+                DestroyToast();
             }
         }
+    }
+
+    public void DestroyToast()
+    {
+        if (this) Destroy(gameObject);
     }
 }
